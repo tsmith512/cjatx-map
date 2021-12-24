@@ -30,11 +30,15 @@
     .district-popup .mapboxgl-popup-content {
       padding-top: 15px;
       background-color: #D96523;
-      box-shadow: 2px 5px 8px rgba(0,0,0,0.75);
+      box-shadow: 2px 5px 8px rgba(0,0,0,0.5);
       color: #fff;
       text-shadow: 1px 1px 0 rgba(0,0,0,0.5);
       font-family: "Open Sans", "Helvetica Neue", Arial, Helvetica, sans-serif;
       font-size: 0.875rem;
+    }
+
+    .district-popup strong {
+      font-weight: bold;
     }
 
     .district-popup .mapboxgl-popup-tip {
@@ -60,21 +64,14 @@
         .then(res => res.json())
         .then(payload => {
           const district = payload?.features[0]?.id || false;
+          marker.remove().setLngLat(position).addTo(map);
+          popup.remove().setLngLat(position).addTo(map);
           if (district == 37) {
-              new mapboxgl.Popup({ className: 'district-popup'})
-                .setLngLat(position)
-                .setHTML(`You're with us in <strong>District 37!</strong>`)
-                .addTo(map);
-            } else if (district) {
-              new mapboxgl.Popup({ className: 'district-popup'})
-                .setLngLat(position)
-                .setHTML(`You're in <strong>District ${district}.</strong> (TBD What we do about that)`)
-                .addTo(map);
-            } else {
-              new mapboxgl.Popup({ className: 'district-popup'})
-                .setLngLat(position)
-                .setHTML(`We could not determine which Texas Congressional District this is.`)
-                .addTo(map);
+            popup.setHTML(`You're with us in <strong>District 37!</strong>`)
+          } else if (district) {
+            popup.setHTML(`You're in <strong>District ${district}.</strong>`)
+          } else {
+            popup.setHTML(`We could not determine which Texas Congressional District this is.`)
           }
         });
     };
@@ -88,6 +85,10 @@
 
     const marker = new mapboxgl.Marker({
       color: '#D96523',
+    });
+
+    const popup = new mapboxgl.Popup({
+      className: 'district-popup',
     });
 
     const geocoder = new MapboxGeocoder({
@@ -114,28 +115,24 @@
 
     map.on('click', (e) => {
       getTxDistrict(e.lngLat);
-      marker.remove().setLngLat(e.lngLat).addTo(map);
       geocoder.clear();
     });
 
     geocoder.on('result', (results) => {
-      console.log(results);
       const point = results.result?.center || false;
       if (point) {
         getTxDistrict({lng: point[0] , lat: point[1]});
-        marker.remove().setLngLat(point).addTo(map);
       }
     });
 
     locator.on('geolocate', (data) => {
-      console.log(data);
       const latLng = {
         lat: data.coords.latitude,
         lng: data.coords.longitude,
       };
 
+      geocoder.clear();
       getTxDistrict(latLng);
-      marker.remove().setLngLat(latLng).addTo(map);
     });
   </script>
 </body>
