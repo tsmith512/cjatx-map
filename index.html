@@ -26,6 +26,24 @@
       width: 100%;
       height: 100vh;
     }
+
+    .district-popup .mapboxgl-popup-content {
+      padding-top: 15px;
+      background-color: #D96523;
+      box-shadow: 2px 5px 8px rgba(0,0,0,0.75);
+      color: #fff;
+      text-shadow: 1px 1px 0 rgba(0,0,0,0.5);
+      font-family: "Open Sans", "Helvetica Neue", Arial, Helvetica, sans-serif;
+      font-size: 0.875rem;
+    }
+
+    .district-popup .mapboxgl-popup-tip {
+      border-top-color: #D96523 !important;
+    }
+
+    .district-popup .mapboxgl-popup-close-button {
+      padding-right: 5px;
+    }
   </style>
   <link href='https://api.mapbox.com/mapbox-gl-js/v2.6.1/mapbox-gl.css' rel='stylesheet' />
   <link rel="stylesheet" href="https://api.mapbox.com/mapbox-gl-js/plugins/mapbox-gl-geocoder/v4.7.2/mapbox-gl-geocoder.css" type="text/css">
@@ -43,11 +61,20 @@
         .then(payload => {
           const district = payload?.features[0]?.id || false;
           if (district == 37) {
-            alert(`You're with us in District 37!`);
-          } else if (district) {
-            alert(`You're in District ${district}. (TBD What we do about that)`);
-          } else {
-            alert(`Unable to determine your Texas Congressional District.`);
+              new mapboxgl.Popup({ className: 'district-popup'})
+                .setLngLat(position)
+                .setHTML(`You're with us in <strong>District 37!</strong>`)
+                .addTo(map);
+            } else if (district) {
+              new mapboxgl.Popup({ className: 'district-popup'})
+                .setLngLat(position)
+                .setHTML(`You're in <strong>District ${district}.</strong> (TBD What we do about that)`)
+                .addTo(map);
+            } else {
+              new mapboxgl.Popup({ className: 'district-popup'})
+                .setLngLat(position)
+                .setHTML(`We could not determine which Texas Congressional District this is.`)
+                .addTo(map);
           }
         });
     };
