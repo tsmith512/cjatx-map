@@ -41,18 +41,20 @@
       const data = fetch(`https://api.mapbox.com/v4/tsmith512.ccvoi5im/tilequery/${position.lng},${position.lat}.json?access_token=${mapboxgl.accessToken}`)
         .then(res => res.json())
         .then(payload => {
-          const district = payload?.features[0]?.id || null;
+          const district = payload?.features[0]?.id || false;
           if (district == 37) {
             alert(`You're with us in District 37!`);
-          } else {
+          } else if (district) {
             alert(`You're in District ${district}. (TBD What we do about that)`);
+          } else {
+            alert(`Unable to determine your Texas Congressional District.`);
           }
         });
     };
 
     const map = new mapboxgl.Map({
       container: 'map',
-      style: 'mapbox://styles/tsmith512/ckxjj3hrl0zyg16msy69bh91w',
+      style: 'mapbox://styles/tsmith512/ckxjxx5aj0o0f14ld25ucj1ie',
       center: [-97.74,30.27],
       zoom: 10,
     });
@@ -65,13 +67,16 @@
       accessToken: mapboxgl.accessToken,
       marker: false,
       placeholder: 'Search by Address',
-    }).setZoom(12.5);
+    }).setZoom(12);
 
     map.addControl(geocoder);
 
     const locator = new mapboxgl.GeolocateControl({
       positionOptions: {
         enableHighAccuracy: true,
+      },
+      fitBoundsOptions: {
+        maxZoom: 12,
       },
       trackUserLocation: false,
       showUserLocation: false,
