@@ -57,9 +57,13 @@
       zoom: 10,
     });
 
+    const marker = new mapboxgl.Marker({
+      color: '#D96523',
+    });
+
     const geocoder = new MapboxGeocoder({
       accessToken: mapboxgl.accessToken,
-      mapboxgl: mapboxgl,
+      marker: false,
       placeholder: 'Search by Address',
     }).setZoom(12.5);
 
@@ -67,6 +71,7 @@
 
     map.on('click', (e) => {
       getTxDistrict(e.lngLat);
+      marker.remove().setLngLat(e.lngLat).addTo(map);
       geocoder.clear();
     });
 
@@ -75,6 +80,7 @@
       const point = results.result?.center || false;
       if (point) {
         getTxDistrict({lng: point[0] , lat: point[1]});
+        marker.remove().setLngLat(point).addTo(map);
       }
     });
   </script>
