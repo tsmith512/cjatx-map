@@ -1,0 +1,23 @@
+{
+  "name": "cjatx-map",
+  "version": "1.0.0",
+  "description": "An interactive map of the Congressional Districts of Texas. Which district are you in? Created for Chris Jones for Congress by Taylor Smith.",
+  "main": "index.js",
+  "dependencies": {
+    "parcel": "^2.0.1"
+  },
+  "devDependencies": {},
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/tsmith512/cjatx-map.git"
+  },
+  "author": "Taylor Smith <tsmith@tsmith.com> (https://tsmith.com)",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/tsmith512/cjatx-map/issues"
+  },
+  "homepage": "https://www.chrisjonesatx.com"
+}
