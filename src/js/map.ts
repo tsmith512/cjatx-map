@@ -1,7 +1,21 @@
-mapboxgl.accessToken = 'pk.eyJ1IjoidHNtaXRoNTEyIiwiYSI6ImNreGp2NDQ2ODBvMHkybnBuYmk5bXJ5a3QifQ.5W22pLLWNQVOVj6pLgaE6Q';
+import {
+  Map,
+  Marker,
+  Popup,
+  GeolocateControl,
+} from 'mapbox-gl';
 
-const getTxDistrict = (position) => {
-  const data = fetch(`https://api.mapbox.com/v4/tsmith512.ccvoi5im/tilequery/${position.lng},${position.lat}.json?access_token=${mapboxgl.accessToken}`)
+import MapboxGeocoder from '@mapbox/mapbox-gl-geocoder';
+
+interface SimpleLngLat {
+  lng: number,
+  lat: number,
+};
+
+const accessToken = 'pk.eyJ1IjoidHNtaXRoNTEyIiwiYSI6ImNreGp2NDQ2ODBvMHkybnBuYmk5bXJ5a3QifQ.5W22pLLWNQVOVj6pLgaE6Q';
+
+const getTxDistrict = (position: SimpleLngLat) => {
+  const data = fetch(`https://api.mapbox.com/v4/tsmith512.ccvoi5im/tilequery/${position.lng},${position.lat}.json?access_token=${accessToken}`)
     .then(res => res.json())
     .then(payload => {
       const district = payload?.features[0]?.id || false;
@@ -17,30 +31,31 @@ const getTxDistrict = (position) => {
     });
 };
 
-const map = new mapboxgl.Map({
+const map = new Map({
+  accessToken,
   container: 'map',
   style: 'mapbox://styles/tsmith512/ckxjxx5aj0o0f14ld25ucj1ie',
   center: [-97.74,30.27],
   zoom: 10,
 });
 
-const marker = new mapboxgl.Marker({
+const marker = new Marker({
   color: '#D96523',
 });
 
-const popup = new mapboxgl.Popup({
+const popup = new Popup({
   className: 'district-popup',
 });
 
 const geocoder = new MapboxGeocoder({
-  accessToken: mapboxgl.accessToken,
+  accessToken,
   marker: false,
   placeholder: 'Search by Address',
 }).setZoom(12);
 
 map.addControl(geocoder);
 
-const locator = new mapboxgl.GeolocateControl({
+const locator = new GeolocateControl({
   positionOptions: {
     enableHighAccuracy: true,
   },
@@ -65,12 +80,14 @@ geocoder.on('result', (results) => {
   }
 });
 
-locator.on('geolocate', (data) => {
-  const latLng = {
-    lat: data.coords.latitude,
-    lng: data.coords.longitude,
-  };
+locator.on('geolocate', (data: any) => {
+  if (data && data.hasOwnProperty('coords')) {
+    const latLng = {
+      lat: data.coords.latitude,
+      lng: data.coords.longitude,
+    };
 
-  geocoder.clear();
-  getTxDistrict(latLng);
+    geocoder.clear(data);
+    getTxDistrict(latLng);
+  }
 });

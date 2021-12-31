@@ -4,9 +4,15 @@
   "description": "An interactive map of the Congressional Districts of Texas. Which district are you in? Created for Chris Jones for Congress by Taylor Smith.",
   "main": "index.js",
   "dependencies": {
+    "@mapbox/mapbox-gl-geocoder": "^4.7.4",
+    "@types/mapbox__mapbox-gl-geocoder": "^4.7.1",
+    "mapbox-gl": "^2.6.1",
     "parcel": "^2.0.1"
   },
-  "devDependencies": {},
+  "devDependencies": {
+    "@parcel/transformer-sass": "^2.0.1",
+    "@types/mapbox-gl": "^2.6.0"
+  },
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"
   },
