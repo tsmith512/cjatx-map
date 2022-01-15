@@ -19,7 +19,7 @@ const accessToken =
  * @param position (SimpleLngLat) position to query for
  */
 const getTxDistrict = (position: SimpleLngLat): void => {
-  const data = fetch(
+  fetch(
     `https://api.mapbox.com/v4/tsmith512.ccvoi5im/tilequery/${position.lng},${position.lat}.json?access_token=${accessToken}`
   )
     .then((res) => res.json())
@@ -96,7 +96,7 @@ geocoder.on('result', (results) => {
 // the button. Why? I don't want to show a disabled button.
 //
 
-const ifGeoSupported = (callback: Function): void => {
+const ifGeoSupported = (callback: (x: boolean) => void): void => {
   let supportsGeolocation = false;
 
   if (window.navigator.permissions !== undefined) {
@@ -133,8 +133,9 @@ const setupGeolocator = (supported: boolean): void => {
 
   map.addControl(locator);
 
+  /* eslint-disable  @typescript-eslint/no-explicit-any */
   locator.on('geolocate', (data: any) => {
-    if (data && data.hasOwnProperty('coords')) {
+    if (data && Object.prototype.hasOwnProperty.call(data, 'coords')) {
       const latLng = {
         lat: data.coords.latitude,
         lng: data.coords.longitude,

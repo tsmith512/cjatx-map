@@ -7,16 +7,21 @@
     "@types/mapbox__mapbox-gl-geocoder": "^4.7.1",
     "mapbox-gl": "^2.6.1",
     "parcel": "^2.0.1",
-    "prettier": "^2.5.1"
+    "prettier": "^2.5.1",
+    "typescript": "^4.5.4"
   },
   "devDependencies": {
     "@parcel/transformer-sass": "^2.0.1",
-    "@types/mapbox-gl": "^2.6.0"
+    "@types/mapbox-gl": "^2.6.0",
+    "@typescript-eslint/eslint-plugin": "^5.9.1",
+    "@typescript-eslint/parser": "^5.9.1",
+    "eslint": "^8.6.0"
   },
   "browserslist": "> 2% in US, last 2 versions, not dead",
   "scripts": {
     "start": "parcel",
-    "build": "parcel build"
+    "build": "parcel build",
+    "lint": "eslint --ignore-path .eslintignore --ext .js,.ts ."
   },
   "source": [
     "src/index.html",
