@@ -47,6 +47,14 @@ const map = new Map({
   style: 'mapbox://styles/tsmith512/ckxjxx5aj0o0f14ld25ucj1ie',
   center: [-97.74, 30.27],
   zoom: 10,
+
+  // Disable 3D tilt and rotation on the map
+  pitch: 0,
+  minPitch: 0,
+  maxPitch: 0,
+  pitchWithRotate: false,
+  touchPitch: false,
+  dragRotate: false,
 });
 
 const marker = new Marker({
