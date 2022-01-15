@@ -33,3 +33,19 @@
     padding-right: 5px;
   }
 }
+
+.mapboxgl-ctrl-geocoder {
+  // Override some of its own style for small screens/iframes
+  @media (max-width: 639px) {
+    width: 240px;
+    font-size: 15px;
+
+    .mapboxgl-ctrl-geocoder--icon-search {
+      top: 9px;
+    }
+
+    .mapboxgl-ctrl-geocoder--input {
+      height: 40px;
+    }
+  }
+}
