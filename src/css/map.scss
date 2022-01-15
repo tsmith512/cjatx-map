@@ -1,0 +1,35 @@
+@import 'reset';
+
+@import 'base';
+
+@import '../../node_modules/mapbox-gl/dist/mapbox-gl.css';
+@import '../../node_modules/@mapbox/mapbox-gl-geocoder/dist/mapbox-gl-geocoder.css';
+
+#map {
+  width: 100%;
+  height: 100%;
+}
+
+.district-popup {
+  .mapboxgl-popup-content {
+    padding-top: 15px;
+    background-color: #D96523;
+    box-shadow: 2px 5px 8px rgba(0,0,0,0.5);
+    color: #fff;
+    text-shadow: 1px 1px 0 rgba(0,0,0,0.5);
+    font-family: "Open Sans", "Helvetica Neue", Arial, Helvetica, sans-serif;
+    font-size: 0.875rem;
+  }
+
+  strong {
+    font-weight: bold;
+  }
+
+  .mapboxgl-popup-tip {
+    border-top-color: #D96523 !important;
+  }
+
+  .mapboxgl-popup-close-button {
+    padding-right: 5px;
+  }
+}
