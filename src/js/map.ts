@@ -2,7 +2,6 @@ import {
   Map,
   Marker,
   Popup,
-  GeolocateControl,
 } from 'mapbox-gl';
 
 import MapboxGeocoder from '@mapbox/mapbox-gl-geocoder';
@@ -55,20 +54,6 @@ const geocoder = new MapboxGeocoder({
 
 map.addControl(geocoder);
 
-const locator = new GeolocateControl({
-  positionOptions: {
-    enableHighAccuracy: true,
-  },
-  fitBoundsOptions: {
-    maxZoom: 12,
-  },
-  trackUserLocation: false,
-  showUserLocation: false,
-  showAccuracyCircle: false,
-});
-
-map.addControl(locator);
-
 map.on('click', (e) => {
   getTxDistrict(e.lngLat);
 });
@@ -77,17 +62,5 @@ geocoder.on('result', (results) => {
   const point = results.result?.center || false;
   if (point) {
     getTxDistrict({lng: point[0] , lat: point[1]});
-  }
-});
-
-locator.on('geolocate', (data: any) => {
-  if (data && data.hasOwnProperty('coords')) {
-    const latLng = {
-      lat: data.coords.latitude,
-      lng: data.coords.longitude,
-    };
-
-    geocoder.clear(data);
-    getTxDistrict(latLng);
   }
 });
